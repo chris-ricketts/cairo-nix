@@ -4,9 +4,10 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
+    rust-overlay.url = "github:oxalica/rust-overlay";
   };
 
-  outputs = { nixpkgs, flake-utils, ... }:
+  outputs = { nixpkgs, flake-utils, rust-overlay, ... }:
     let
       overlay = import ./overlay.nix;
     in
@@ -25,7 +26,7 @@
       let
         pkgs = import nixpkgs {
           inherit system;
-          overlays = [ overlay ];
+          overlays = [ (import rust-overlay) overlay ];
         };
       in
       {
